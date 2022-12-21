@@ -9,14 +9,14 @@
 Backend flask api service.
 
 creating jobs
-`curl -d '{"resource":"data-10154db7-5c3c-4418-87bf-8e4cbaa312a3.csv"}' -H "Content-Type: application/json" -X POST http://localhost:5000/api/jobs`
+`curl -d '{"resource":"data-10154db7-5c3c-4418-87bf-8e4cbaa312a3.csv"}' -H "Content-Type: application/json" -X POST http://localhost:3000/api/jobs`
 
 retrieving samples
 `curl -G -v "http://localhost:3000/api/samples" --data-urlencode "sample_id=10154db7-5c3c-4418-87bf-8e4cbaa312a3"`
 
 #### Migrations
 
-To run alembic migrations run `docker exec -it pattern_ag-api-1 alembic upgrade head` while the container is running.
+To run alembic migrations run `docker compose exec -it api alembic upgrade head` while the container (api service) is running.
 
 ### Processor
 
