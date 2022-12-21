@@ -51,12 +51,10 @@ def get_samples():
     if "sample_id" not in request.args:
         return {"payload": "Bad Request"}, 400
 
-    print(request.args.get("sample_id"))
     # transaction context
     with db.cursor() as cur:
         SQL = "SELECT * FROM samples WHERE sample_id = %s;"
         cur.execute(SQL, (request.args.get("sample_id"),))
         results = cur.fetchall()
-        print(results)
 
     return {"payload": {"samples": [results]}}, 200

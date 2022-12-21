@@ -5,7 +5,6 @@ from flask import g
 
 
 def get_db():
-    print("USER", getenv("PGUSER"))
     if "db" not in g:
         g.db = psycopg2.connect(
             host=getenv("PGHOST", ""),
