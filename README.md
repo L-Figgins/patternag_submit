@@ -6,6 +6,8 @@
 
 ### Using the Api
 
+Backend flask api service.
+
 creating jobs
 `curl -d '{"resource":"data-10154db7-5c3c-4418-87bf-8e4cbaa312a3.csv"}' -H "Content-Type: application/json" -X POST http://localhost:5000/api/jobs`
 
@@ -14,7 +16,7 @@ retrieving samples
 
 #### Migrations
 
-Backend flask api service. To run alembic migrations run `docker exec -it pattern_ag-api-1 alembic upgrade head` while the container is running.
+To run alembic migrations run `docker exec -it pattern_ag-api-1 alembic upgrade head` while the container is running.
 
 ### Processor
 
@@ -22,4 +24,4 @@ The worker service that is listening for Postgres NOTIFY. This example only has 
 
 ### NGINX
 
-Reverse proxy / webserver forwarding to api. Uneed for this project, but if there was a client service we would want to route traffic to it as well as serve static assets
+Reverse proxy / webserver forwarding to api. Overkill for development, but would be used in production to forward requests to upstream services.
