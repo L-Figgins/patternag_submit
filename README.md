@@ -18,6 +18,8 @@ retrieving samples
 
 To run alembic migrations run `docker compose exec -it api alembic upgrade head` while the container (api service) is running.
 
+The processor service will need to be restarted after first migration.
+
 ### Processor
 
 The worker service that is listening for Postgres NOTIFY. This example only has one running, but the service could be replicated in a deployment if we were using k8s. This client makes use of FOR SKIP LOCKED in order to support concurrency.
