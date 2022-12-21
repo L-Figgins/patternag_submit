@@ -1,0 +1,22 @@
+## Building/Running the Project
+
+This is running in dev mode
+From the root directory run `docker compose build`
+Then `docker compose up`
+
+Alternatively
+`docker compose up --build`
+
+## Services
+
+### Api
+
+Backend flask api service. To run alembic migrations run `docker exec -it pattern_ag-api-1 alembic upgrade head` while the container is running
+
+### processor
+
+The worker service that is listening for Postgres NOTIFY. This example only has one running, but the service could be replicated in a deployment if we were using k8s. This client makes use of FOR SKIP LOCKED in order to support concurrency.
+
+### NGINX
+
+reverse proxy / webserver forwarding to api

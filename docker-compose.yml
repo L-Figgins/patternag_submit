@@ -1,0 +1,54 @@
+version: "3"
+services:
+  postgres:
+    image: "postgres:latest"
+    environment:
+      - POSTGRES_PASSWORD=postgres_password
+      # when preset this creates db with given name
+      - POSTGRES_DB=pattern_ag
+    volumes:
+      - ~/.pgdata:/var/lib/postgresql/data
+  api:
+    image: lfiggins/patterag_backend
+    build:
+      context: api
+      dockerfile: Dockerfile.dev
+    environment:
+      - PGUSER=postgres
+      - PGHOST=postgres
+      - PGDATABASE=pattern_ag
+      - PGPASSWORD=postgres_password
+      - PGPORT=5432
+      - SECRET_KEY=dev
+      - FLASK_APP=pattern_ag_backend
+      - PYTHONUNBUFFERED=1
+    volumes:
+      - /usr/src/app/pattern_ag_backend/__pycache__/
+      - ./api/pattern_ag_backend:/usr/src/app/pattern_ag_backend
+      - ./api/migrations:/usr/src/app/migrations
+    depends_on:
+      - postgres
+  processor:
+    image: lfiggins/patternag_processor
+    build:
+      context: ./processor
+      dockerfile: Dockerfile.dev
+    depends_on:
+      - postgres
+    environment:
+      - PGUSER=postgres
+      - PGHOST=postgres
+      - PGDATABASE=pattern_ag
+      - PGPASSWORD=postgres_password
+      - PGPORT=5432
+      - PYTHONUNBUFFERED=1
+  nginx:
+    depends_on:
+      - api
+    restart: always
+    image: lfiggins/multi-nginx-dev
+    build:
+      dockerfile: Dockerfile.dev
+      context: ./nginx
+    ports:
+      - "3000:80"
