@@ -9,7 +9,7 @@ services:
     volumes:
       - ~/.pgdata:/var/lib/postgresql/data
   api:
-    image: lfiggins/patterag_backend
+    image: lfiggins/patterag_backend-d
     build:
       context: api
       dockerfile: Dockerfile.dev
@@ -29,7 +29,7 @@ services:
     depends_on:
       - postgres
   processor:
-    image: lfiggins/patternag_processor
+    image: lfiggins/patternag_processor-d
     build:
       context: ./processor
       dockerfile: Dockerfile.dev
@@ -46,7 +46,7 @@ services:
     depends_on:
       - api
     restart: always
-    image: lfiggins/multi-nginx-dev
+    image: lfiggins/proxy
     build:
       dockerfile: Dockerfile.dev
       context: ./nginx
